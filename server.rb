@@ -14,6 +14,16 @@ DRIVE_FOLDER = ENV['DRIVE_FOLDER'] || './test_data'
 BASE_FOLDER = "#{DRIVE_FOLDER}/PS5/CREATE".freeze
 ACCESS_LOCK_PATH = '/tmp/PIPS5_ACCESS_LOCK'.freeze
 
+def x_send_file(file)
+  if ENV["USE_SENDFILE"] != "yes"
+    send_file file
+  else
+    headers({
+      "X-Accel-Redirect": file.gsub(ENV['DRIVE_FOLDER'], "/drive")
+    })
+  end
+end
+
 def get_full_path(type, game, filename)
   final_path = File.expand_path(File.join(type, game, filename), BASE_FOLDER)
 
