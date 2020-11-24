@@ -1,0 +1,11 @@
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineAssignmentLayout:
+  EnforcedStyle: same_line
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
