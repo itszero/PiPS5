@@ -115,7 +115,7 @@
     {#if status}
       {#if status.drive_mounted}
         {#if files}
-          <Content {files} />
+          <Content {files} on:refreshFiles={fetchFiles} />
         {:else}
           <h1>Loading...</h1>
         {/if}

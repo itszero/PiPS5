@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DRIVE_MOUNTPOINT="/mnt/drive"
+ACCESS_LOCK_PATH="/tmp/PIPS5_ACCESS_LOCK"
 
 # Utils: adapted from https://github.com/cimryan/teslausb/blob/master/run/archiveloop
 
@@ -21,7 +22,7 @@ function retry () {
     fi
     /bin/sleep 1
     attempts=$((attempts + 1))
-    log "retry #$attempts"
+    echo "retry #$attempts"
   done
   false
   return
@@ -71,10 +72,10 @@ function pi_unmount() {
 }
 
 function wait_for_request_to_access() {
-  echo "-> Wait for request to access (/tmp/PIPS5_ACCESS_LOCK)"
+  echo "-> Wait for request to access ($ACCESS_LOCK_PATH)"
   while [ true ]
   do
-    if [[ -f /tmp/PIPS5_ACCESS_LOCK ]]
+    if [[ -f $ACCESS_LOCK_PATH ]]
     then
       return
     fi
@@ -83,10 +84,10 @@ function wait_for_request_to_access() {
 }
 
 function wait_for_finish_access() {
-  echo "-> Wait for access request ended (/tmp/PIPS5_ACCESS_LOCK)"
+  echo "-> Wait for access request ended ($ACCESS_LOCK_PATH)"
   while [ true ]
   do
-    if [[ ! -f /tmp/PIPS5_ACCESS_LOCK ]]
+    if [[ ! -f $ACCESS_LOCK_PATH ]]
     then
       return
     fi
@@ -103,6 +104,8 @@ do
   ps5_unmount
 
   pi_mount
-  
+
   wait_for_finish_access
+
+  pi_unmount
 done

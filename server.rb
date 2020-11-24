@@ -28,7 +28,7 @@ end
 
 get '/i/status' do
   has_access_lock = File.exist? ACCESS_LOCK_PATH
-  drive_mounted = `findmnt --mountpoint ${drive_mounted}`.strip.size.positive?
+  drive_mounted = `findmnt --mountpoint #{DRIVE_FOLDER}`.strip.size.positive?
 
   json({
     has_access_lock: has_access_lock,
@@ -39,8 +39,8 @@ end
 get '/i/files' do
   files = Dir["#{BASE_FOLDER}/**/*"]
     .map { |p| p.gsub("#{BASE_FOLDER}/", '') }
-    .filter { |p| p =~ %r{^(Screenshots|Video Clips)/} }
-    .filter { |p| File.file? File.expand_path(p, BASE_FOLDER) }
+    .select { |p| p =~ %r{^(Screenshots|Video Clips)/} }
+    .select { |p| File.file? File.expand_path(p, BASE_FOLDER) }
     .map { |p| p.split('/') }
     .group_by { |p| p[1] }
     .transform_values do |game|
@@ -65,7 +65,7 @@ get '/i/files' do
         {
           name: File.basename(in_files[0], File.extname(in_files[0])),
           preview: in_files.select { |f| File.extname(f) == '.jpg' }.first,
-          video: in_files.select { |f| File.extname(f) == '.webm' }.first
+          video: in_files.select { |f| File.extname(f) == '.webm' or File.extname(f) == '.mp4' }.first
         }
       end
         .values
@@ -99,6 +99,12 @@ end
 
 get '/i/lock' do
   File.unlink ACCESS_LOCK_PATH rescue nil
+  json({ ok: true })
+end
+
+get '/i/unlink' do
+  path = get_full_path(params[:type], params[:game], params[:file])
+  File.unlink path rescue nil
   json({ ok: true })
 end
 

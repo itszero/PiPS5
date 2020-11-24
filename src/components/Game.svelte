@@ -30,6 +30,6 @@
   <h1>{title.replace('_', '')}</h1>
 
   {#each allMedia as file}
-    <Thumbnail gameTitle={title} {file} />
+    <Thumbnail gameTitle={title} {file} on:refreshFiles />
   {/each}
 </div>

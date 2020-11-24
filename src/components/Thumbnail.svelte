@@ -1,14 +1,41 @@
 <script>
   export let gameTitle, file
+  import { createEventDispatcher } from 'svelte'
+
+  const dispatch = createEventDispatcher()
+
+  async function unlink() {
+    if (file.type === 'screenshot') {
+      await fetch(
+        `/i/unlink?game=${encodeURIComponent(
+          gameTitle
+        )}&type=Screenshots&file=${encodeURIComponent(file.file)}`
+      )
+    } else if (file.type === 'video') {
+      await fetch(
+        `/i/unlink?game=${encodeURIComponent(
+          gameTitle
+        )}&type=Video Clips&file=${encodeURIComponent(file.preview)}`
+      )
+      await fetch(
+        `/i/unlink?game=${encodeURIComponent(
+          gameTitle
+        )}&type=Video Clips&file=${encodeURIComponent(file.video)}`
+      )
+    }
+
+    dispatch('refreshFiles')
+  }
 </script>
 
 <style>
   .root {
     border-radius: 10px;
     width: 400px;
-    margin-right: 20px;
+    margin: 20px 20px 20px 0;
     border: 1px solid #888;
     overflow: hidden;
+    display: inline-block;
   }
 
   .thumbnail {
@@ -59,5 +86,6 @@
       {:else if file.type === 'video'}<span class="type">Video Clip</span>{/if}
     </div>
     <div>{file.name}</div>
+    <button class="button" on:click={unlink}>Delete</button>
   </div>
 </div>

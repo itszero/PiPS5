@@ -7,5 +7,5 @@
 </script>
 
 {#each entries as [title, media] (title)}
-  <Game {title} {media} />
+  <Game {title} {media} on:refreshFiles />
 {/each}
