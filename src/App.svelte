@@ -34,7 +34,7 @@
 
   onMount(() => {
     fetchAll()
-    setInterval(fetchAll, 5000)
+    setInterval(fetchAll, 1000)
   })
 </script>
 

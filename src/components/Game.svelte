@@ -27,9 +27,13 @@
 </style>
 
 <div class="root">
-  <h1>{title.replace('_', '')}</h1>
+  {#if allMedia.length > 0}
+    <h1>{title.replace('_', '')}</h1>
 
-  {#each allMedia as file}
-    <Thumbnail gameTitle={title} {file} on:refreshFiles />
-  {/each}
+    {#each allMedia as file}
+      <Thumbnail gameTitle={title} {file} on:refreshFiles />
+    {/each}
+  {:else}
+    <h1>No media found on the drive</h1>
+  {/if}
 </div>
