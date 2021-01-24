@@ -15,7 +15,7 @@ The code is provided as-is and no support will be provided.
 
 Raspberry Pi can emulate USB gadgets so we emulate it as a USB mass storage device that PS5 can write into and than we start a web server which provide you UI to access into the content of that emulated storage.
 
-Note that will the access is enabled on the Web UI, the storage will be unmounted from PS5. You will need to lock it again for it to be usable on PS5.
+While the access is enabled on the Web UI, the storage will be unmounted from PS5. You will need to lock it again for it to be usable on PS5.
 
 # Setup
 
@@ -24,7 +24,7 @@ I might have missed some steps here...
 From a computer:
 
 - run `yarn; yarn build` in the repo
-- copy the repo into the sd card
+- copy the repo into the sd card (to the root of your raspberry pi OS rootfs at /pips5)
 
 From the raspberry pi:
 
