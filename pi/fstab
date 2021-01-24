@@ -1,1 +1,1 @@
-/pips5/pi/drive.img /mnt/drive vfat noauto,users,umask=000 0 0
+/pips5/pi/drive.img /mnt/drive vfat noauto,users,umask=000,utf8=1 0 0
